@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { mobile } from "../responsive";
 
 const Container = styled.div`
   width: 100vw;
@@ -20,6 +21,7 @@ const Wrapper = styled.div`
   padding: 20px;
   width: 40%;
   background-color: white;
+  ${mobile({ width: "80%" })}
 `;
 const Title = styled.h1`
   font-size: 24px;
@@ -61,8 +63,8 @@ const Register = () => {
           <Input placeholder="password"></Input>
           <Input placeholder="confirm password"></Input>
           <Agreement>By creating ana ccount, I consent</Agreement>
-          <Button>Create</Button>
         </Form>
+        <Button>Create</Button>
       </Wrapper>
     </Container>
   );
