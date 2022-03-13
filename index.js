@@ -1,16 +1,26 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const userRoute = require("./routes/user");
+const authRoute = require("./routes/auth");
 const app = express();
 
+dotenv.config();
+
 mongoose
-  .connect(
-    "mongodb+srv://admin:5ny^qighwMsdc3@cluster0.x6iku.mongodb.net/FastShion?retryWrites=true&w=majority"
-  )
+  .connect(process.env.MONGO_URL)
   .then(() => console.log("DB Connection Successful"))
   .catch((err) => {
     console.log(err);
   });
 
-app.listen(5000, () => {
-  console.log("Server is running");
+// app.get("/api/test", () => {
+//   console.log("Test is success");
+// });
+app.use(express.json());
+app.use("/api/user", userRoute);
+app.use("/api/auth", authRoute);
+
+app.listen(process.env.PORT || 5000, () => {
+  console.log("Server is running: 5000");
 });
