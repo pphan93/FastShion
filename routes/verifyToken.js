@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const Users = require("../models/Users");
 
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.token;
@@ -27,8 +28,10 @@ const verifyTokenAndAuthorization = (req, res, next) => {
 };
 
 const verifyTokenAndAdmin = (req, res, next) => {
-  verifyToken(req, res, () => {
-    if (req.user.isAdmin) {
+  verifyToken(req, res, async () => {
+    const isAdmin = await Users.findById(req.user.id);
+
+    if (isAdmin.isAdmin) {
       next();
     } else {
       res.status(403).json("Access Denied");
