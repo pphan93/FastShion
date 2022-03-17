@@ -44,7 +44,6 @@ const ProductList = () => {
   const [sort, setSort] = useState();
 
   const handleFilters = (event) => {
-    console.log("test");
     const value = event.target.value;
     setFilter((previtem) => ({
       ...previtem,
@@ -56,8 +55,6 @@ const ProductList = () => {
     const value = event.target.value;
     setSort(value);
   };
-
-  console.log(filter);
 
   return (
     <Container>

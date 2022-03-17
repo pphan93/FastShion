@@ -18,3 +18,16 @@ export async function getProducts(category) {
 
   return data;
 }
+
+export async function getProductDetail(id) {
+  const subAPIURL = "product/find/";
+
+  const response = await fetch(API_URL + subAPIURL + id);
+  let data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Could not fetch quotes.");
+  }
+
+  return data;
+}

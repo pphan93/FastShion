@@ -1,5 +1,5 @@
 import { Add, Remove } from "@mui/icons-material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
@@ -7,6 +7,11 @@ import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
+
+import useHttp from "../hooks/useHttp";
+import { getProductDetail } from "../lib/api";
+import { addProduct } from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
 
 const Container = styled.div``;
 
@@ -113,7 +118,58 @@ const Button = styled.button`
 
 const Product = () => {
   const location = useLocation();
+
   const id = location.pathname.split("/")[2];
+  const [quantity, setQuanity] = useState(1);
+  const [color, setColor] = useState();
+  const [size, setSize] = useState();
+  const dispatch = useDispatch();
+
+  const {
+    sendRequest,
+    status,
+    data: loadedProduct,
+    error,
+  } = useHttp(getProductDetail, true);
+
+  useEffect(() => {
+    sendRequest(id);
+  }, [sendRequest, id]);
+
+  const quantityAddHandler = () => {
+    setQuanity(quantity + 1);
+  };
+
+  const quantityRemoveHandler = () => {
+    if (quantity > 1) {
+      setQuanity(quantity - 1);
+    }
+  };
+
+  const onSizeHandler = (e) => {
+    setSize(e.target.value);
+  };
+
+  //Add to cart button
+  const onAddHandler = () => {
+    dispatch(
+      addProduct({
+        ...loadedProduct,
+        quantity,
+        size,
+        color,
+      })
+    );
+  };
+
+  if (error) {
+    return <p className="centered">{error}</p>;
+  }
+  if (status === "pending") {
+    return <div className="centered">Loading...</div>;
+  }
+
+  console.log(loadedProduct);
 
   return (
     <Container>
@@ -121,40 +177,46 @@ const Product = () => {
       <Announcement />
       <Wrapper>
         <ImgContainer>
-          <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
+          <Image src={loadedProduct.img} />
         </ImgContainer>
 
         <InfoContainer>
-          <Title>Denim Jumpsuit</Title> <Desc>Lorem</Desc>
-          <Price>$20</Price>
+          <Title>{loadedProduct.title} </Title>{" "}
+          <Desc>{loadedProduct.desc} </Desc>
+          <Price>${loadedProduct.price} </Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="darkblue" />
-
-              <FilterColor color="gray" />
+              {loadedProduct.color.map((color, idx) => {
+                return (
+                  <FilterColor
+                    onClick={() => {
+                      setColor(color);
+                    }}
+                    key={idx}
+                    color={color}
+                  />
+                );
+              })}
             </Filter>
 
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
+              <FilterSize onClick={onSizeHandler}>
+                {loadedProduct.size.map((size, idx) => {
+                  return <FilterSizeOption key={idx}>{size}</FilterSizeOption>;
+                })}
               </FilterSize>
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove onClick={quantityRemoveHandler} />
+              <Amount>{quantity}</Amount>
+              <Add onClick={quantityAddHandler} />
             </AmountContainer>
 
-            <Button>ADD TO CART</Button>
+            <Button onClick={onAddHandler}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

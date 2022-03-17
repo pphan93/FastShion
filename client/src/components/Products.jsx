@@ -39,13 +39,13 @@ const Products = ({ cat, filters, sort }) => {
   }, [sendRequest]);
 
   useEffect(() => {
-    console.log(loadedProducts);
     if (error) {
       return <p className="centered">{error}</p>;
     }
     if (status === "pending") {
       return <div className="centered">Loading...</div>;
     }
+    console.log(loadedProducts);
     cat &&
       setFiltersProduct(
         loadedProducts.filter((item) =>
@@ -55,7 +55,7 @@ const Products = ({ cat, filters, sort }) => {
           })
         )
       );
-  }, [status, loadedProducts, cat, filters]);
+  }, [status, loadedProducts, cat, filters, error]);
 
   useEffect(() => {
     if (sort === "newest") {
@@ -68,6 +68,13 @@ const Products = ({ cat, filters, sort }) => {
       setFiltersProduct((prev) => [...prev].sort((a, b) => b.price - a.price));
     }
   }, [sort]);
+
+  if (error) {
+    return <p className="centered">{error}</p>;
+  }
+  if (status === "pending") {
+    return <div className="centered">Loading...</div>;
+  }
 
   return (
     <Container>
