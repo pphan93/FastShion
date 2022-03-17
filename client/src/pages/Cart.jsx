@@ -1,11 +1,18 @@
 import { Add, Remove } from "@mui/icons-material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import { mobile } from "../responsive";
 import { useSelector } from "react-redux";
+import StripeCheckout from "react-stripe-checkout";
+import { useNavigate } from "react-router-dom";
+import useHttp from "../hooks/useHttp";
+import { payment } from "../lib/api";
+
+const KEY = process.env.REACT_APP_STRIPE;
+console.log(KEY);
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -144,6 +151,31 @@ const Button = styled.button`
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
+  const [stripeToken, setStripeToken] = useState(null);
+  const {
+    sendRequest,
+    status,
+    data: paymentDetail,
+    error,
+  } = useHttp(payment, true);
+
+  const navigate = useNavigate();
+
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+
+  useEffect(() => {
+    payment({ tokenId: stripeToken, amount: cart.total * 100 });
+    if (error) {
+      return <p className="centered">{error}</p>;
+    }
+    if (status === "pending") {
+      return <div className="centered">Loading...</div>;
+    }
+
+    navigate("/success");
+  }, [stripeToken, cart, status, error, navigate]);
 
   return (
     <Container>
@@ -217,7 +249,17 @@ const Cart = () => {
             <SummaryItemPrice>${cart.total}</SummaryItemPrice>
           </SummaryItem>
 
-          <Button>CHECKOUT NOW</Button>
+          <StripeCheckout
+            name="FastShion"
+            billingAddress
+            shippingAddress
+            description={`Your total is $${cart.total}`}
+            amount={cart.total * 100}
+            token={onToken}
+            stripeKey={KEY}
+          >
+            <Button>CHECKOUT NOW</Button>
+          </StripeCheckout>
         </Summary>
       </Bottom>
 
