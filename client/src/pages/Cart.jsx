@@ -5,6 +5,7 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import { mobile } from "../responsive";
+import { useSelector } from "react-redux";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -142,6 +143,8 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const cart = useSelector((state) => state.cart);
+
   return (
     <Container>
       <NavBar />
@@ -159,67 +162,47 @@ const Cart = () => {
       </Wrapper>
       <Bottom>
         <Info>
-          <Product>
-            <ProductDetail>
-              <Image src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/4e894c2b76dd4c8e9013aafc016047af_9366/Superstar_Shoes_White_FV3284_01_standard.jpg" />
+          {cart.products.map((product) => {
+            return (
+              <Product>
+                <ProductDetail>
+                  <Image src={product.img} />
 
-              <Details>
-                <ProductName>
-                  <b>Product: </b>ADIAS SHOE
-                </ProductName>
-                <ProductID>
-                  <b>ID: </b>12312312
-                </ProductID>
-                <ProductColor color="black" />
-                <ProductSize>
-                  <b>Size: </b>8
-                </ProductSize>
-              </Details>
-            </ProductDetail>
-            <PriceDetail>
-              <ProductAmountContainer>
-                <Add />
-                <ProductAmount>2</ProductAmount>
-                <Remove />
-              </ProductAmountContainer>
+                  <Details>
+                    <ProductName>
+                      <b>Product: </b>
+                      {product.title}
+                    </ProductName>
+                    <ProductID>
+                      <b>ID: </b>
+                      {product._id}
+                    </ProductID>
+                    <ProductColor color={product.color} />
+                    <ProductSize>
+                      <b>Size: </b>
+                      {product.size}
+                    </ProductSize>
+                  </Details>
+                </ProductDetail>
+                <PriceDetail>
+                  <ProductAmountContainer>
+                    <Add />
+                    <ProductAmount>{product.quantity}</ProductAmount>
+                    <Remove />
+                  </ProductAmountContainer>
 
-              <ProductPrice>$ 30</ProductPrice>
-            </PriceDetail>
-          </Product>
+                  <ProductPrice>$ {product.price}</ProductPrice>
+                </PriceDetail>
+              </Product>
+            );
+          })}
           <Hr />
-          <Product>
-            <ProductDetail>
-              <Image src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/4e894c2b76dd4c8e9013aafc016047af_9366/Superstar_Shoes_White_FV3284_01_standard.jpg" />
-
-              <Details>
-                <ProductName>
-                  <b>Product: </b>ADIAS SHOE
-                </ProductName>
-                <ProductID>
-                  <b>ID: </b>12312312
-                </ProductID>
-                <ProductColor color="black" />
-                <ProductSize>
-                  <b>Size: </b>8
-                </ProductSize>
-              </Details>
-            </ProductDetail>
-            <PriceDetail>
-              <ProductAmountContainer>
-                <Add />
-                <ProductAmount>2</ProductAmount>
-                <Remove />
-              </ProductAmountContainer>
-
-              <ProductPrice>$ 30</ProductPrice>
-            </PriceDetail>
-          </Product>{" "}
         </Info>
         <Summary>
           <SummaryTitle>ORDER SUMMARY</SummaryTitle>
           <SummaryItem>
             <SummaryItemText>Subtotal</SummaryItemText>
-            <SummaryItemPrice>$80</SummaryItemPrice>
+            <SummaryItemPrice>${cart.total}</SummaryItemPrice>
           </SummaryItem>
           <SummaryItem>
             <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -231,7 +214,7 @@ const Cart = () => {
           </SummaryItem>
           <SummaryItem type="total">
             <SummaryItemText>Total</SummaryItemText>
-            <SummaryItemPrice>$80</SummaryItemPrice>
+            <SummaryItemPrice>${cart.total}</SummaryItemPrice>
           </SummaryItem>
 
           <Button>CHECKOUT NOW</Button>
