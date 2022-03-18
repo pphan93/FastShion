@@ -19,16 +19,10 @@ const persistConfig = {
   storage,
 };
 
+//persist on refresh
 const rootReducer = combineReducers({ user: userReducer, cart: cartReducer });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-// export default configureStore({
-//   reducer: {
-//     cart: cartReducer,
-//     user: persistedReducer,
-//   },
-// });
 
 export const store = configureStore({
   reducer: persistedReducer,
@@ -39,19 +33,5 @@ export const store = configureStore({
       },
     }),
 });
-
-// export const store = () =>
-//   configureStore({
-//     reducer: {
-//       cart: cartReducer,
-//       user: persistedReducer,
-//     },
-//     middleware: (getDefaultMiddleware) =>
-//       getDefaultMiddleware({
-//         serializableCheck: {
-//           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-//         },
-//       }),
-//   });
 
 export let persistor = persistStore(store);
