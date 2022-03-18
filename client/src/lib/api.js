@@ -34,15 +34,15 @@ export async function getProductDetail(id) {
 
 export async function payment(paymentInfo) {
   const subAPIURL = "checkout/payment";
-
+  console.log(paymentInfo);
   const response = await fetch(API_URL + subAPIURL, {
     method: "POST",
-    header: {
+    headers: {
       "Content-Type": "application/json",
       token:
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmUzNmVlNDgyNzQxYmYwYzc1MDE3ZiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0NzQ4MTMxNiwiZXhwIjoxNjQ3NzQwNTE2fQ.rJDD0W7AALWS0CMqyI92o7ywbKtjwmwY7ijQcqJ1hLE",
-      body: JSON.stringify(paymentInfo),
     },
+    body: JSON.stringify(paymentInfo),
   });
   let data = await response.json();
 

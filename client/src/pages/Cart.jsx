@@ -12,7 +12,6 @@ import useHttp from "../hooks/useHttp";
 import { payment } from "../lib/api";
 
 const KEY = process.env.REACT_APP_STRIPE;
-console.log(KEY);
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -166,16 +165,17 @@ const Cart = () => {
   };
 
   useEffect(() => {
-    payment({ tokenId: stripeToken, amount: cart.total * 100 });
-    if (error) {
-      return <p className="centered">{error}</p>;
+    if (stripeToken) {
+      sendRequest({ tokenId: stripeToken, amount: cart.total * 100 });
+      if (error) {
+        return <p className="centered">{error}</p>;
+      }
+      if (status === "pending") {
+        return <div className="centered">Loading...</div>;
+      }
+      navigate("/success", { data: paymentDetail });
     }
-    if (status === "pending") {
-      return <div className="centered">Loading...</div>;
-    }
-
-    navigate("/success");
-  }, [stripeToken, cart, status, error, navigate]);
+  }, [stripeToken, status, error, paymentDetail, navigate, cart, sendRequest]);
 
   return (
     <Container>
@@ -196,7 +196,7 @@ const Cart = () => {
         <Info>
           {cart.products.map((product) => {
             return (
-              <Product>
+              <Product key={product._id}>
                 <ProductDetail>
                   <Image src={product.img} />
 
