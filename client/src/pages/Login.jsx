@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { login } from "../lib/api";
 import { mobile } from "../responsive";
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 100vw;
@@ -15,6 +17,10 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const Error = styled.span`
+  color: red;
 `;
 const Wrapper = styled.div`
   padding: 20px;
@@ -45,6 +51,11 @@ const Button = styled.button`
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
+
+  &:disabled {
+    color: red;
+    cursor: not-allowed;
+  }
 `;
 
 const Link = styled.a`
@@ -55,15 +66,44 @@ const Link = styled.a`
 `;
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector((state) => state.user);
+
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+    if (name === "username") {
+      setUsername(value);
+    } else {
+      setPassword(value);
+    }
+  };
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    login(dispatch, { username, password });
+  };
   return (
     <Container>
       <Container>
         <Wrapper>
           <Title>SIGN IN</Title>
-          <Form>
-            <Input placeholder="username"></Input>
-            <Input placeholder="password"></Input>
-            <Button>Login</Button>
+          <Form onSubmit={onSubmitHandler}>
+            <Input
+              placeholder="username"
+              name="username"
+              value={username}
+              onChange={onChangeHandler}
+            ></Input>
+            <Input
+              placeholder="password"
+              name="password"
+              value={password}
+              onChange={onChangeHandler}
+            ></Input>
+            <Button disabled={isFetching}>Login</Button>
+            {error && <Error>Something went wrong...</Error>}
             <Link>DONT REMEMBER PASSWORD</Link>
             <Link>CREATE NEW ACCOUNT</Link>
           </Form>

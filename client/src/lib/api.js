@@ -1,3 +1,5 @@
+import { loginFailure, loginStart, loginSuccess } from "../redux/userRedux";
+
 const API_URL = "http://localhost:5000/api/";
 
 const TOKEN =
@@ -51,4 +53,31 @@ export async function payment(paymentInfo) {
   }
 
   return data;
+}
+
+export async function login(dispatch, user) {
+  const subAPIURL = "auth/login";
+
+  dispatch(loginStart());
+
+  try {
+    const response = await fetch(API_URL + subAPIURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    let data = await response.json();
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Payment unsuccessful, please try agian."
+      );
+    }
+
+    dispatch(loginSuccess(data));
+  } catch (error) {
+    dispatch(loginFailure());
+  }
 }

@@ -151,12 +151,12 @@ const Button = styled.button`
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
-  const {
-    sendRequest,
-    status,
-    data: paymentDetail,
-    error,
-  } = useHttp(payment, true);
+  // const {
+  //   sendRequest,
+  //   status,
+  //   data: paymentDetail,
+  //   error,
+  // } = useHttp(payment, true);
 
   const navigate = useNavigate();
 
@@ -165,17 +165,25 @@ const Cart = () => {
   };
 
   useEffect(() => {
-    if (stripeToken) {
-      sendRequest({ tokenId: stripeToken, amount: cart.total * 100 });
-      if (error) {
-        return <p className="centered">{error}</p>;
+    // if (stripeToken) {
+    //   sendRequest({ tokenId: stripeToken, amount: cart.total * 100 });
+    // }
+
+    const sendRequest = async () => {
+      try {
+        const res = await payment({
+          tokenId: stripeToken,
+          amount: cart.total * 100,
+        });
+        // const data = res.json();
+        navigate("/success", { data: res });
+      } catch (error) {
+        console.log(error);
       }
-      if (status === "pending") {
-        return <div className="centered">Loading...</div>;
-      }
-      navigate("/success", { data: paymentDetail });
-    }
-  }, [stripeToken, status, error, paymentDetail, navigate, cart, sendRequest]);
+    };
+
+    stripeToken && sendRequest();
+  }, [stripeToken, cart]);
 
   return (
     <Container>
