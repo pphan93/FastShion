@@ -5,6 +5,7 @@ import Home from "./pages/home/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import User from "./pages/user/User";
 import UserDetail from "./pages/userDetail/UserDetail";
+import NewUser from "./pages/newUser/NewUser";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/users" element={<User />} />
 
             <Route path="/user/:id" element={<UserDetail />} />
+            <Route path="/newUser" element={<NewUser />} />
           </Routes>
         </div>
       </div>

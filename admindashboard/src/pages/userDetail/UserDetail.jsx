@@ -9,12 +9,16 @@ import {
   Publish,
 } from "@mui/icons-material";
 
+import { Link } from "react-router-dom";
+
 const UserDetail = () => {
   return (
     <div className={styles.container}>
       <div className={styles.titleContainer}>
         <h1 className={styles.title}>Edit User</h1>
-        <button className={styles.addButton}>Create</button>
+        <Link to="/newUser">
+          <button className={styles.addButton}>Create</button>
+        </Link>
       </div>
       <div className={styles.userContainer}>
         <div className={styles.userShow}>
