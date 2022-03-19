@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Topbar.module.css";
-import { NotificationsNone } from "@mui/icons-material";
+import { Language, NotificationsNone, Settings } from "@mui/icons-material";
 
 const Topbar = () => {
   return (
@@ -12,7 +12,20 @@ const Topbar = () => {
         <div className={styles.right}>
           <div className={styles.iconwrapper}>
             <NotificationsNone />
+            <span className={styles.notificationbadge}>2</span>
           </div>
+          <div className={styles.iconwrapper}>
+            <Language />
+            <span className={styles.notificationbadge}>2</span>
+          </div>
+          <div className={styles.iconwrapper}>
+            <Settings />
+          </div>
+          <img
+            src="https://i.pravatar.cc/"
+            alt=""
+            className={styles.avatar}
+          ></img>
         </div>
       </div>
     </div>
