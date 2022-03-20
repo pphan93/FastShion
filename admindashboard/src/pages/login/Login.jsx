@@ -1,18 +1,31 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../../lib/api";
 
 const Login = () => {
-  const [usename, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+
   const onHandleClick = (e) => {
     e.preventDefault();
+    //
+    login(dispatch, { username, password });
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+      }}
+    >
       <input
         type="text"
         placeholder="username"
-        value={usename}
+        value={username}
         onChange={(e) => {
           setUsername(e.target.value);
         }}

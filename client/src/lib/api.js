@@ -2,8 +2,8 @@ import { loginFailure, loginStart, loginSuccess } from "../redux/userRedux";
 
 const API_URL = "http://localhost:5000/api/";
 
-const TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmUzNmVlNDgyNzQxYmYwYzc1MDE3ZiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0NzE5NjA0OSwiZXhwIjoxNjQ3NDU1MjQ5fQ.ak4Mpy-J3LK9SPyLEWMxZIrCHiwq7Ouaw8tHf62hK-Q";
+const TOKEN = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user)
+  .currentUser.accessToken;
 
 export async function getProducts(category) {
   const subAPIURL = "product";
