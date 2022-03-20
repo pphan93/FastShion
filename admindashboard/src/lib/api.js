@@ -87,3 +87,22 @@ export async function login(dispatch, user) {
     dispatch(loginFailure());
   }
 }
+
+export async function newUser() {
+  const subAPIURL = "user/?new=true";
+  console.log();
+  const response = await fetch(API_URL + subAPIURL, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      token: "Bearer " + TOKEN,
+    },
+  });
+  let data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Payment unsucessful, please try again.");
+  }
+
+  return data;
+}

@@ -54,7 +54,7 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
   const query = req.query.new;
   try {
     const users = query
-      ? await Users.find().sort({ _id: -1 }).limit(5)
+      ? await Users.find({}, { password: 0 }).sort({ _id: -1 }).limit(5)
       : await Users.find();
     res.status(200).json(users);
   } catch (error) {
@@ -81,7 +81,7 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
         },
       },
     ]);
-    res.status(200).json(data);
+    res.status(200).json({ data });
   } catch (error) {
     res.status(500).json(error);
   }
