@@ -18,11 +18,15 @@ import NewProduct from "./pages/newProduct/NewProduct";
 import Login from "./pages/login/Login";
 
 function App() {
+  const location = useLocation();
+
   return (
     <div className="App">
-      <Topbar />
+      {location.pathname !== "/login" && <Topbar />}
+
       <div className={styles.container}>
-        <SideBar />
+        {location.pathname !== "/login" && <SideBar />}
+
         <div className={styles.mainContainer}>
           <Routes>
             <Route
