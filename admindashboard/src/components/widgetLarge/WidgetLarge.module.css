@@ -24,17 +24,20 @@
   border-radius: 5px;
 }
 
-.button.Approved {
+.button.Approved,
+.button.approved {
   background-color: #e5faf2;
   color: #3bb077;
 }
 
-.button.Declined {
+.button.Declined,
+.button.declined {
   background-color: #fff0f1;
   color: #d95087;
 }
 
-.button.Pending {
+.button.Pending,
+.button.pending {
   background-color: #ebf1fe;
   color: #2a7ade;
 }

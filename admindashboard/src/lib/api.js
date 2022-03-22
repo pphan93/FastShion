@@ -106,3 +106,22 @@ export async function newUser() {
 
   return data;
 }
+
+export async function newOrders() {
+  const subAPIURL = "order";
+  console.log();
+  const response = await fetch(API_URL + subAPIURL, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      token: "Bearer " + TOKEN,
+    },
+  });
+  let data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Payment unsucessful, please try again.");
+  }
+
+  return data;
+}
