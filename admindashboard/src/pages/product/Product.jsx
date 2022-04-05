@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Product.module.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { DeleteOutline } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProducts, getProducts } from "../../lib/api";
 
 const rows = [
   {
@@ -48,17 +50,24 @@ const rows = [
 ];
 
 const Product = () => {
-  const [data, setData] = useState(rows);
-  const onDeleteHandler = React.useCallback((id) => {
-    setTimeout(() => {
-      setData((prevItem) => {
-        return prevItem.filter((item) => item.id !== id);
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.product.products);
+
+  useEffect(() => {
+    getProducts(dispatch);
+  }, [dispatch]);
+
+  const onDeleteHandler = React.useCallback(
+    (id) => {
+      setTimeout(() => {
+        deleteProducts(id, dispatch);
       });
-    });
-  }, []);
+    },
+    [dispatch]
+  );
 
   const columns = [
-    { field: "id", headerName: "ID", width: 70 },
+    { field: "_id", headerName: "ID", width: 220 },
     {
       field: "img",
       headerName: "",
@@ -79,13 +88,13 @@ const Product = () => {
     //   { field: "firstName", headerName: "First name", width: 130 },
     //   { field: "lastName", headerName: "Last name", width: 130 },
     {
-      field: "name",
+      field: "title",
       headerName: "Product",
       description: "This column has a value getter and is not sortable.",
       width: 160,
     },
     {
-      field: "stock",
+      field: "inStock",
       headerName: "Stock",
       type: "number",
       width: 50,
@@ -96,12 +105,7 @@ const Product = () => {
       type: "number",
       width: 90,
     },
-    {
-      field: "status",
-      headerName: "Status",
-      type: "string",
-      width: 90,
-    },
+
     {
       field: "action",
       headerName: "Action",
@@ -110,12 +114,12 @@ const Product = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/product/${params.row.id}`}>
+            <Link to={`/product/${params.row._id}`}>
               <button className={styles.buttonEdit}>Edit</button>
             </Link>
             <DeleteOutline
               className={styles.buttonDelete}
-              onClick={() => onDeleteHandler(params.row.id)}
+              onClick={() => onDeleteHandler(params.row._id)}
             />
           </>
         );
@@ -124,12 +128,12 @@ const Product = () => {
   ];
   return (
     <div className={styles.container}>
-      {" "}
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={data}
+          rows={products}
           columns={columns}
           pageSize={8}
+          getRowId={(row) => row._id}
           rowsPerPageOptions={[8]}
           checkboxSelection
           disableSelectionOnClick

@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./FeaturedInfo.module.css";
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
+import { getStoreRevenue } from "../../lib/api";
 
 const FeaturedInfo = () => {
+  const [revenue, setRevenue] = useState([]);
+  const [percentage, setPercentage] = useState(0);
+
+  useEffect(() => {
+    const getRevenue = async () => {
+      try {
+        const data = await getStoreRevenue();
+        console.log(data);
+        setRevenue(data);
+        setPercentage((data[1].total * 100) / data[0].total);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getRevenue();
+  }, []);
+  console.log(percentage);
+
   return (
     <div className={styles.container}>
       <div className={styles.item}>
@@ -10,8 +30,12 @@ const FeaturedInfo = () => {
         <div className={styles.moneyContainer}>
           <span className={styles.money}>$2,123</span>
           <span className={styles.rate}>
-            <ArrowDownward className={`${styles.icon} ${styles.negative}`} />
-            -11.4
+            %{Math.floor(percentage)}
+            {percentage < 0 ? (
+              <ArrowDownward className={`${styles.icon} ${styles.negative}`} />
+            ) : (
+              <ArrowUpward className={`${styles.icon}`} />
+            )}
           </span>
         </div>
         <span className={styles.sub}>Compared to last month</span>

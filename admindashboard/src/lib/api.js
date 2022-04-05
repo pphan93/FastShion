@@ -1,7 +1,16 @@
+import {
+  deleteProductFailure,
+  deleteProductStart,
+  deleteProductSuccess,
+  getProductFailure,
+  getProductStart,
+  getProductSuccess,
+} from "../redux/productRedux";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userRedux";
 
 const API_URL = "http://localhost:5000/api/";
 
+//Get login token to send to backend authorization
 const TOKEN =
   localStorage.getItem("persist:root") === null
     ? null
@@ -11,56 +20,7 @@ const TOKEN =
     : JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user)
         .currentUser.accessToken;
 
-// export async function getProducts(category) {
-//   const subAPIURL = "product";
-
-//   console.log(category);
-//   const response = await fetch(
-//     category ? API_URL + subAPIURL + "?category=Coat" : API_URL + subAPIURL
-//   );
-//   let data = await response.json();
-
-//   if (!response.ok) {
-//     throw new Error(data.message || "Could not fetch quotes.");
-//   }
-
-//   return data;
-// }
-
-// export async function getProductDetail(id) {
-//   const subAPIURL = "product/find/";
-
-//   const response = await fetch(API_URL + subAPIURL + id);
-//   let data = await response.json();
-
-//   if (!response.ok) {
-//     throw new Error(data.message || "Could not fetch quotes.");
-//   }
-
-//   return data;
-// }
-
-// export async function payment(paymentInfo) {
-//   const subAPIURL = "checkout/payment";
-//   console.log(paymentInfo);
-//   const response = await fetch(API_URL + subAPIURL, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       token:
-//         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmUzNmVlNDgyNzQxYmYwYzc1MDE3ZiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0NzQ4MTMxNiwiZXhwIjoxNjQ3NzQwNTE2fQ.rJDD0W7AALWS0CMqyI92o7ywbKtjwmwY7ijQcqJ1hLE",
-//     },
-//     body: JSON.stringify(paymentInfo),
-//   });
-//   let data = await response.json();
-
-//   if (!response.ok) {
-//     throw new Error(data.message || "Payment unsucessful, please try again.");
-//   }
-
-//   return data;
-// }
-
+//login
 export async function login(dispatch, user) {
   const subAPIURL = "auth/login";
 
@@ -88,6 +48,7 @@ export async function login(dispatch, user) {
   }
 }
 
+//get new users return total of 5
 export async function newUser() {
   const subAPIURL = "user/?new=true";
   console.log();
@@ -107,6 +68,7 @@ export async function newUser() {
   return data;
 }
 
+//Get new orders
 export async function newOrders() {
   const subAPIURL = "order";
   console.log();
@@ -121,6 +83,120 @@ export async function newOrders() {
 
   if (!response.ok) {
     throw new Error(data.message || "Payment unsucessful, please try again.");
+  }
+
+  return data;
+}
+
+//Get total # user per month for one year
+export async function usersStats() {
+  const subAPIURL = "user/stats";
+  console.log();
+  const response = await fetch(API_URL + subAPIURL, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      token: "Bearer " + TOKEN,
+    },
+  });
+  let data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Unable to retrieve user stats");
+  }
+
+  return data.data;
+}
+
+//get income from order
+export async function getStoreRevenue() {
+  const subAPIURL = "order/income";
+  console.log();
+  const response = await fetch(API_URL + subAPIURL, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      token: "Bearer " + TOKEN,
+    },
+  });
+  let data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Unable to retrieve user stats");
+  }
+
+  return data;
+}
+
+//get products
+export async function getProducts(dispatch) {
+  const subAPIURL = "product";
+
+  dispatch(getProductStart());
+
+  try {
+    const response = await fetch(API_URL + subAPIURL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    let data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Get Products failed, please try agian.");
+    }
+
+    dispatch(getProductSuccess(data));
+  } catch (error) {
+    dispatch(getProductFailure());
+  }
+}
+
+//delete products
+export async function deleteProducts(id, dispatch) {
+  const subAPIURL = "product/";
+
+  dispatch(deleteProductStart());
+
+  try {
+    const response = await fetch(API_URL + subAPIURL + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        token: "Bearer " + TOKEN,
+      },
+    });
+
+    let data = await response.json();
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Delete Products failed, please try agian."
+      );
+    }
+
+    dispatch(deleteProductSuccess(id));
+  } catch (error) {
+    dispatch(deleteProductFailure());
+  }
+}
+
+//get income for specific product id
+export async function getProductRevenue(productID) {
+  console.log(productID);
+  const subAPIURL = "order/income";
+  console.log();
+  const response = await fetch(API_URL + subAPIURL + "?pid=" + productID, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      token: "Bearer " + TOKEN,
+    },
+  });
+  let data = await response.json();
+  console.log(data);
+  if (!response.ok) {
+    throw new Error(data.message || "Unable to retrieve user stats");
   }
 
   return data;
