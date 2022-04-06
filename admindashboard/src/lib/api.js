@@ -1,10 +1,16 @@
 import {
+  addProductFailure,
+  addProductStart,
+  addProductSuccess,
   deleteProductFailure,
   deleteProductStart,
   deleteProductSuccess,
   getProductFailure,
   getProductStart,
   getProductSuccess,
+  updateProductFailure,
+  updateProductStart,
+  updateProductSuccess,
 } from "../redux/productRedux";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userRedux";
 
@@ -200,4 +206,59 @@ export async function getProductRevenue(productID) {
   }
 
   return data;
+}
+
+//update product
+export async function updateProduct(id, product, dispatch) {
+  const subAPIURL = "product/";
+
+  dispatch(updateProductStart());
+
+  try {
+    const response = await fetch(API_URL + subAPIURL + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        token: "Bearer " + TOKEN,
+      },
+    });
+
+    let data = await response.json();
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Update Product failed, please try agian."
+      );
+    }
+
+    dispatch(updateProductSuccess({ id, product }));
+  } catch (error) {
+    dispatch(updateProductFailure());
+  }
+}
+
+//add product
+export async function addProduct(product, dispatch) {
+  const subAPIURL = "product/";
+
+  dispatch(addProductStart());
+
+  try {
+    const response = await fetch(API_URL + subAPIURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token: "Bearer " + TOKEN,
+      },
+      body: JSON.stringify(product),
+    });
+
+    let data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Add product failed, please try agian.");
+    }
+
+    dispatch(addProductSuccess(data));
+  } catch (error) {
+    dispatch(addProductFailure());
+  }
 }

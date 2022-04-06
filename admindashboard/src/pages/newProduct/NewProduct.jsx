@@ -1,31 +1,149 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./NewProduct.module.css";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+
+import { useDispatch } from "react-redux";
+
+import app from "../../firebase";
+import { addProduct } from "../../lib/api";
 
 const NewProduct = () => {
+  const [inputs, setInputs] = useState({});
+  const [file, setFile] = useState(null);
+  const [catergories, setCatergories] = useState([]);
+  const dispatch = useDispatch();
+
+  const onChangeHandler = (e) => {
+    setInputs((prevItems) => {
+      return { ...prevItems, [e.target.name]: e.target.value };
+    });
+  };
+
+  console.log(inputs);
+
+  const onCatHandler = (e) => {
+    setCatergories(e.target.value.split(","));
+  };
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+
+    const filename = new Date().getTime() + file.name;
+
+    const storage = getStorage(app);
+    const storageRef = ref(storage, filename);
+
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    // Register three observers:
+    // 1. 'state_changed' observer, called any time the state changes
+    // 2. Error observer, called on failure
+    // 3. Completion observer, called on successful completion
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+      },
+      () => {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+
+          const product = {
+            ...inputs,
+            img: downloadURL,
+            catergories: catergories,
+          };
+
+          addProduct(product, dispatch);
+        });
+      }
+    );
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>New Product</h1>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={onSubmitHandler}>
         <div className={styles.item}>
           <label>Image</label>
-          <input type="file" id="file"></input>
+          <input
+            type="file"
+            id="file"
+            onChange={(e) => setFile(e.target.files[0])}
+          ></input>
         </div>
         <div className={styles.item}>
-          <label>Name</label>
-          <input type="text" placeholder="Apple AirPods"></input>
+          <label>Title</label>
+          <input
+            type="text"
+            name="title"
+            placeholder="Apple AirPods"
+            onChange={onChangeHandler}
+          ></input>
+        </div>
+        <div className={styles.item}>
+          <label>Price</label>
+          <input
+            type="number"
+            name="price"
+            placeholder="12.99"
+            onChange={onChangeHandler}
+          ></input>
+        </div>
+        <div className={styles.item}>
+          <label>Categories</label>
+          <input
+            type="text"
+            placeholder="jean,skirt,male"
+            onChange={onCatHandler}
+          ></input>
+        </div>
+        <div className={styles.item}>
+          <label>Description</label>
+          <input
+            type="text"
+            name="desc"
+            placeholder="Description..."
+            onChange={onChangeHandler}
+          ></input>
         </div>
         <div className={styles.item}>
           <label>Stock</label>
-          <input type="number" placeholder="123"></input>
-        </div>
-        <div className={styles.item}>
-          <label>Active</label>
-          <select className={styles.select} name="active" id="active">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+          <select
+            className={styles.select}
+            name="inStock"
+            onChange={onChangeHandler}
+          >
+            <option value="true">Yes</option>
+            <option value="false">No</option>
           </select>
         </div>
-        <button className={styles.button}>Create</button>
+
+        <button type="submit" className={styles.button}>
+          Create
+        </button>
       </form>
     </div>
   );
