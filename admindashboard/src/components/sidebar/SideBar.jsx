@@ -1,46 +1,95 @@
 import React from "react";
 import styles from "./SideBar.module.css";
 import { LineStyle, Timeline, TrendingUp } from "@mui/icons-material";
+import { NavLink, useLocation } from "react-router-dom";
 
 const SideBar = () => {
+  const location = useLocation();
+
+  console.log(location.pathname);
+
   return (
     <div className={styles.sidebar}>
       <div className={styles.wrapper}>
         <div className={styles.menu}>
           <h3 className={styles.title}>Dashboard</h3>
           <ul className={styles.sidebarList}>
-            <li className={`${styles.sidebarListItem} ${styles.active}`}>
-              <LineStyle className={styles.icon} />
-              Home
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.sidebarListItem} ${styles.active}`
+                    : styles.sidebarListItem
+                }
+              >
+                <LineStyle className={styles.icon} />
+                Home
+              </NavLink>
             </li>
-            <li className={styles.sidebarListItem}>
-              <Timeline className={styles.icon} />
-              Analytics
+
+            <li>
+              <NavLink
+                to="/products"
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.sidebarListItem} ${styles.active}`
+                    : styles.sidebarListItem
+                }
+              >
+                <Timeline className={styles.icon} />
+                Products
+              </NavLink>
             </li>
-            <li className={styles.sidebarListItem}>
-              <TrendingUp className={styles.icon} />
-              Sales
+
+            <li>
+              <NavLink
+                to="/users"
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.sidebarListItem} ${styles.active}`
+                    : styles.sidebarListItem
+                }
+              >
+                <Timeline className={styles.icon} />
+                Users
+              </NavLink>
             </li>
           </ul>
         </div>
         <div className={styles.menu}>
           <h3 className={styles.title}>Quick Menu</h3>
           <ul className={styles.sidebarList}>
-            <li className={`${styles.sidebarListItem} ${styles.active}`}>
-              <LineStyle className={styles.icon} />
-              Home
+            <li>
+              <NavLink
+                to="/newuser"
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.sidebarListItem} ${styles.active}`
+                    : styles.sidebarListItem
+                }
+              >
+                <LineStyle className={styles.icon} />
+                Add New Users
+              </NavLink>
             </li>
-            <li className={styles.sidebarListItem}>
-              <Timeline className={styles.icon} />
-              Analytics
-            </li>
-            <li className={styles.sidebarListItem}>
-              <TrendingUp className={styles.icon} />
-              Sales
+
+            <li>
+              <NavLink
+                to="/newproduct"
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.sidebarListItem} ${styles.active}`
+                    : styles.sidebarListItem
+                }
+              >
+                <Timeline className={styles.icon} />
+                Add New Product
+              </NavLink>
             </li>
           </ul>
         </div>
-        <div className={styles.menu}>
+        {/* <div className={styles.menu}>
           <h3 className={styles.title}>Notification</h3>
           <ul className={styles.sidebarList}>
             <li className={`${styles.sidebarListItem} ${styles.active}`}>
@@ -56,7 +105,7 @@ const SideBar = () => {
               Sales
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   );
