@@ -43,9 +43,7 @@ export async function login(dispatch, user) {
 
     let data = await response.json();
     if (!response.ok) {
-      throw new Error(
-        data.message || "Payment unsuccessful, please try agian."
-      );
+      throw new Error(data.message || "Login unsuccessful, please try agian.");
     }
 
     dispatch(loginSuccess(data));
@@ -68,7 +66,9 @@ export async function newUser() {
   let data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || "Payment unsucessful, please try again.");
+    throw new Error(
+      data.message || "Get New Users unsucessful, please try again."
+    );
   }
 
   return data;
@@ -88,7 +88,9 @@ export async function newOrders() {
   let data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || "Payment unsucessful, please try again.");
+    throw new Error(
+      data.message || "Get New Order unsucessful, please try again."
+    );
   }
 
   return data;
@@ -128,7 +130,7 @@ export async function getStoreRevenue() {
   let data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || "Unable to retrieve user stats");
+    throw new Error(data.message || "Unable to retrieve order");
   }
 
   return data;
@@ -202,7 +204,7 @@ export async function getProductRevenue(productID) {
   let data = await response.json();
   console.log(data);
   if (!response.ok) {
-    throw new Error(data.message || "Unable to retrieve user stats");
+    throw new Error(data.message || "Unable to retrieve income stats");
   }
 
   return data;

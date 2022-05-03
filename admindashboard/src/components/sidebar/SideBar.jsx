@@ -1,13 +1,9 @@
 import React from "react";
 import styles from "./SideBar.module.css";
-import { LineStyle, Timeline, TrendingUp } from "@mui/icons-material";
-import { NavLink, useLocation } from "react-router-dom";
+import { LineStyle, Timeline } from "@mui/icons-material";
+import { NavLink } from "react-router-dom";
 
 const SideBar = () => {
-  const location = useLocation();
-
-  console.log(location.pathname);
-
   return (
     <div className={styles.sidebar}>
       <div className={styles.wrapper}>

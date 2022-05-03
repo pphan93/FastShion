@@ -93,6 +93,7 @@ function App() {
   );
 }
 
+//Check to see if user is auth before they can see other pages or else route them to login page
 function RequireAuth({ children }) {
   let auth =
     localStorage.getItem("persist:root") === null

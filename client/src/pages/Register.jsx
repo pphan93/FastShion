@@ -62,7 +62,9 @@ const Register = () => {
           <Input placeholder="username"></Input>
           <Input placeholder="password"></Input>
           <Input placeholder="confirm password"></Input>
-          <Agreement>By creating ana ccount, I consent</Agreement>
+          <Agreement>
+            By creating an account, I consent to terms and conditions
+          </Agreement>
         </Form>
         <Button>Create</Button>
       </Wrapper>

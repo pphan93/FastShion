@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { popularProducts } from "../data";
+// import { popularProducts } from "../data";
 import Product from "./Product";
 
 import useHttp from "../hooks/useHttp";
@@ -14,7 +14,7 @@ const Container = styled.div`
 `;
 
 const Products = ({ cat, filters, sort }) => {
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [filteredProducts, setFiltersProduct] = useState([]);
   const {
     sendRequest,
@@ -23,21 +23,12 @@ const Products = ({ cat, filters, sort }) => {
     error,
   } = useHttp(getProducts, true);
 
+  //get products
   useEffect(() => {
-    // const getProducts = async () => {
-    //   let url = "http://localhost:5000/api/product";
-    //   try {
-    //     const res = await fetch(cat ? url + "?category=Coat" : url);
-    //     let data = await res.json();
-    //     setProducts(data);
-    //   } catch (err) {}
-    // };
-
-    sendRequest("Coat");
-
-    // getProducts();
+    sendRequest("Shoes");
   }, [sendRequest]);
 
+  //filtering item by category
   useEffect(() => {
     if (error) {
       return <p className="centered">{error}</p>;
@@ -45,18 +36,17 @@ const Products = ({ cat, filters, sort }) => {
     if (status === "pending") {
       return <div className="centered">Loading...</div>;
     }
-    console.log(loadedProducts);
     cat &&
       setFiltersProduct(
         loadedProducts.filter((item) =>
           Object.entries(filters).every(([key, value]) => {
-            console.log(item["size"]);
             return item[key].includes(value);
           })
         )
       );
   }, [status, loadedProducts, cat, filters, error]);
 
+  //sort by price
   useEffect(() => {
     if (sort === "newest") {
       setFiltersProduct((prev) =>

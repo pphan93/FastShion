@@ -57,52 +57,6 @@ const WidgetLarge = () => {
             </tr>
           );
         })}
-        {/* <tr className={styles.tableRow}>
-          <td className={styles.user}>
-            <img
-              src="https://i.pravatar.cc/"
-              alt=""
-              className={styles.img}
-            ></img>
-            <span className={styles.name}>Anna Keller</span>
-          </td>
-          <td className={styles.date}>2 Jne 2021</td>
-          <td className={styles.amount}>$122.00</td>
-          <td className={styles.status}>
-            <Button type="Approved" />
-          </td>
-        </tr>
-
-        <tr className={styles.tableRow}>
-          <td className={styles.user}>
-            <img
-              src="https://i.pravatar.cc/"
-              alt=""
-              className={styles.img}
-            ></img>
-            <span className={styles.name}>Susan Carol</span>
-          </td>
-          <td className={styles.date}>2 Jne 2021</td>
-          <td className={styles.amount}>$122.00</td>
-          <td className={styles.status}>
-            <Button type="Pending" />
-          </td>
-        </tr>
-        <tr className={styles.tableRow}>
-          <td className={styles.user}>
-            <img
-              src="https://i.pravatar.cc/"
-              alt=""
-              className={styles.img}
-            ></img>
-            <span className={styles.name}> Banada Meller</span>
-          </td>
-          <td className={styles.date}>2 Jne 2021</td>
-          <td className={styles.amount}>$1222.00</td>
-          <td className={styles.status}>
-            <Button type="Declined" />
-          </td>
-        </tr> */}
       </table>
     </div>
   );

@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const Users = require("../models/Users");
 
+//verify to ensure token send from frontend is valid user
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.token;
   if (authHeader) {
@@ -17,6 +18,7 @@ const verifyToken = (req, res, next) => {
   }
 };
 
+//check if token valid and user is authorize to update themselve
 const verifyTokenAndAuthorization = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.user.id === req.params.id || req.user.isAdmin) {
@@ -27,6 +29,7 @@ const verifyTokenAndAuthorization = (req, res, next) => {
   });
 };
 
+//check if token is valid and user is admin
 const verifyTokenAndAdmin = (req, res, next) => {
   verifyToken(req, res, async () => {
     const isAdmin = await Users.findById(req.user.id);

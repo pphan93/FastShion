@@ -65,16 +65,14 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
 });
 
 //GET MONTHLY INCOME
-
+//for 2 months and group them by month
 router.get("/income", verifyTokenAndAdmin, async (req, res) => {
   const productID = req.query.pid;
   const date = new Date();
   const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
   const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1));
 
-  console.log(lastMonth);
   try {
-    console.log("test");
     const income = await Order.aggregate([
       {
         $match: {
@@ -97,7 +95,6 @@ router.get("/income", verifyTokenAndAdmin, async (req, res) => {
         },
       },
     ]);
-    console.log(income);
     res.status(200).json(income);
   } catch (error) {
     res.status(500).json(error);

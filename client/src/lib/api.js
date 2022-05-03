@@ -2,15 +2,23 @@ import { loginFailure, loginStart, loginSuccess } from "../redux/userRedux";
 
 const API_URL = "http://localhost:5000/api/";
 
-const TOKEN = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user)
-  .currentUser.accessToken;
+const TOKEN =
+  localStorage.getItem("persist:root") === null
+    ? null
+    : JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user)
+        .currentUser === null
+    ? null
+    : JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user)
+        .currentUser.accessToken;
 
 export async function getProducts(category) {
   const subAPIURL = "product";
 
   console.log(category);
   const response = await fetch(
-    category ? API_URL + subAPIURL + "?category=Coat" : API_URL + subAPIURL
+    category
+      ? API_URL + subAPIURL + "?category=" + category
+      : API_URL + subAPIURL
   );
   let data = await response.json();
 
@@ -41,8 +49,7 @@ export async function payment(paymentInfo) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      token:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmUzNmVlNDgyNzQxYmYwYzc1MDE3ZiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0NzQ4MTMxNiwiZXhwIjoxNjQ3NzQwNTE2fQ.rJDD0W7AALWS0CMqyI92o7ywbKtjwmwY7ijQcqJ1hLE",
+      token: "Bearer " + TOKEN,
     },
     body: JSON.stringify(paymentInfo),
   });

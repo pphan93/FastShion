@@ -49,9 +49,14 @@ const Center = styled.div`
   text-align: center;
 `;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`;
+
 const Logo = styled.h1`
   font-weight: bold;
-  ${mobile({ fontSize: "24px" })}
+  color: teal;
+  ${mobile({ fontSize: "24px" })};
 `;
 
 const Right = styled.div`
@@ -84,18 +89,24 @@ const NavBar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>FastShion</Logo>
+          <StyledLink to="/">
+            <Logo>FastShion </Logo>
+          </StyledLink>
         </Center>
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
-          <Link to="/cart">
+          <StyledLink to="/register">
+            <MenuItem>REGISTER</MenuItem>
+          </StyledLink>
+          <StyledLink to="/login">
+            <MenuItem>SIGN IN</MenuItem>
+          </StyledLink>
+          <StyledLink to="/cart">
             <MenuItem>
-              <Badge badgeContent={quantity} color="primary">
+              <Badge badgeContent={quantity} color="secondary">
                 <ShoppingCartOutlined />
               </Badge>
             </MenuItem>
-          </Link>
+          </StyledLink>
         </Right>
       </Wrapper>
     </Container>

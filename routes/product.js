@@ -7,7 +7,6 @@ const {
 } = require("./verifyToken");
 
 //CREATE
-
 router.post("/", verifyTokenAndAdmin, async (req, res) => {
   const newProduct = new Product(req.body);
 
@@ -55,6 +54,7 @@ router.get("/find/:id", async (req, res) => {
 });
 
 //GET ALL PRODUCTS
+//limit to 5 items only
 router.get("/", async (req, res) => {
   const queryNew = req.query.new;
   const queryCategory = req.query.category;

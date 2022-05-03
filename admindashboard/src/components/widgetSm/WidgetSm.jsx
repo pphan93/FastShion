@@ -17,8 +17,6 @@ const WidgetSm = () => {
     getUsers();
   }, []);
 
-  console.log(users);
-
   return (
     <div className={styles.container}>
       <span className={styles.title}>New Join Members</span>

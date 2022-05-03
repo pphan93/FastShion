@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const stripe = require("stripe")(process.env.STRIPE_KEY);
 
+//payment using stripe
 router.post("/payment", (req, res) => {
   stripe.charges.create(
     {

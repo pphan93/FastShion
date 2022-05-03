@@ -11,7 +11,6 @@ const FeaturedInfo = () => {
     const getRevenue = async () => {
       try {
         const data = await getStoreRevenue();
-        console.log(data);
         setRevenue(data);
         setPercentage((data[1].total * 100) / data[0].total);
       } catch (error) {
@@ -21,14 +20,13 @@ const FeaturedInfo = () => {
 
     getRevenue();
   }, []);
-  console.log(percentage);
 
   return (
     <div className={styles.container}>
       <div className={styles.item}>
         <span className={styles.title}>Revenue</span>
         <div className={styles.moneyContainer}>
-          <span className={styles.money}>$2,123</span>
+          <span className={styles.money}>${!revenue ? revenue : 0}</span>
           <span className={styles.rate}>
             %{Math.floor(percentage)}
             {percentage < 0 ? (
