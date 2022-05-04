@@ -1,4 +1,4 @@
-import { Add, Remove } from "@mui/icons-material";
+import { Add, Remove, DeleteForeverOutlined } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
@@ -73,6 +73,7 @@ const ProductDetail = styled.div`
 
 const Image = styled.img`
   width: 200px;
+  ${mobile({ width: "100px" })}
 `;
 
 const Details = styled.div`
@@ -83,6 +84,7 @@ const Details = styled.div`
 `;
 
 const ProductName = styled.span``;
+
 const ProductColor = styled.div`
   width: 20px;
   height: 20px;
@@ -232,6 +234,7 @@ const Cart = () => {
                     </ProductAmountContainer>
 
                     <ProductPrice>$ {product.price}</ProductPrice>
+                    <DeleteForeverOutlined />
                   </PriceDetail>
                 </Product>
               );

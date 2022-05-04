@@ -25,8 +25,8 @@ const Products = ({ cat, filters, sort }) => {
 
   //get products
   useEffect(() => {
-    sendRequest("Shoes");
-  }, [sendRequest]);
+    sendRequest(cat);
+  }, [sendRequest, cat]);
 
   //filtering item by category
   useEffect(() => {

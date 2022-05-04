@@ -1,6 +1,6 @@
 import { loginFailure, loginStart, loginSuccess } from "../redux/userRedux";
 
-const API_URL = "http://localhost:5000/api/";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const TOKEN =
   localStorage.getItem("persist:root") === null
