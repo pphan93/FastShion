@@ -1,28 +1,28 @@
 export const slideItems = [
   {
     id: 1,
-    img: "https://i.ibb.co/DG69bQ4/2.png",
+    img: "https://cdn.pphan.ca/FastShion/2.png",
     title: "a SUMMER SALE",
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS",
     bg: "f5fafd",
   },
   {
     id: 2,
-    img: "https://i.ibb.co/DG69bQ4/2.png",
+    img: "https://cdn.pphan.ca/FastShion/2.png",
     title: "b SUMMER SALE",
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS",
     bg: "fcf1ed",
   },
   {
     id: 3,
-    img: "https://i.ibb.co/DG69bQ4/2.png",
+    img: "https://cdn.pphan.ca/FastShion/2.png",
     title: "c SUMMER SALE",
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS",
     bg: "f5fafd",
   },
   {
     id: 4,
-    img: "https://i.ibb.co/DG69bQ4/2.png",
+    img: "https://cdn.pphan.ca/FastShion/2.png",
     title: "d SUMMER SALE",
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS",
     bg: "fcf1ed",

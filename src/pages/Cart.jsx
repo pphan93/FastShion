@@ -39,6 +39,9 @@ const TopButton = styled.button`
   background-color: ${(props) =>
     props.type === "filled" ? "teal" : "transparent"};
   color: ${(props) => props.type === "filled" && "white"};
+  &:hover {
+    background-color: #007373;
+  }
 `;
 const Bottom = styled.div`
   display: flex;
@@ -149,6 +152,10 @@ const Button = styled.button`
   background-color: teal;
   color: white;
   font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    background-color: #007373;
+  }
 `;
 
 const Cart = () => {
@@ -160,6 +167,8 @@ const Cart = () => {
   //   data: paymentDetail,
   //   error,
   // } = useHttp(payment, true);
+
+  console.log(cart);
 
   const navigate = useNavigate();
 

@@ -14,7 +14,6 @@ const TOKEN =
 export async function getProducts(category) {
   const subAPIURL = "product";
 
-  console.log(category);
   const response = await fetch(
     category
       ? API_URL + subAPIURL + "?category=" + category
