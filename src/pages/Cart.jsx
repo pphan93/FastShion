@@ -6,12 +6,16 @@ import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import { mobile } from "../responsive";
 import { useSelector } from "react-redux";
-import StripeCheckout from "react-stripe-checkout";
+// import StripeCheckout from "react-stripe-checkout";
 import { useNavigate } from "react-router-dom";
 import useHttp from "../hooks/useHttp";
 import { payment } from "../lib/api";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "../components/CheckoutForm";
 
 const KEY = process.env.REACT_APP_STRIPE;
+const stripePromise = loadStripe(KEY);
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -161,6 +165,8 @@ const Button = styled.button`
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
+  const [clientSecret, setClientSecret] = useState("");
+
   // const {
   //   sendRequest,
   //   status,
@@ -184,18 +190,41 @@ const Cart = () => {
     const sendRequest = async () => {
       try {
         const res = await payment({
-          tokenId: stripeToken,
-          amount: cart.total * 100,
+          // tokenId: stripeToken,
+          // amount: cart.total * 100,
+          items: [{ id: "xl-tshirt" }],
         });
-        // const data = res.json();
-        navigate("/success", { data: res });
+
+        const data = res;
+
+        console.log(data);
+        setClientSecret(data.clientSecret);
+        // navigate("/success", { data: res });
       } catch (error) {
         console.log(error);
       }
     };
 
-    stripeToken && sendRequest();
-  }, [stripeToken, cart, navigate]);
+    // sendRequest();
+  }, []);
+
+  const onCheckoutHandler = async () => {
+    try {
+      const res = await payment({
+        cart: cart,
+      });
+
+      const data = await res;
+
+      console.log(data);
+      window.location.href = data.url;
+
+      // setClientSecret(data.clientSecret);
+      // navigate("/success", { data: res });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Container>
@@ -269,7 +298,7 @@ const Cart = () => {
               <SummaryItemPrice>${cart.total}</SummaryItemPrice>
             </SummaryItem>
 
-            <StripeCheckout
+            {/* <StripeCheckout
               name="FastShion"
               billingAddress
               shippingAddress
@@ -279,7 +308,21 @@ const Cart = () => {
               stripeKey={KEY}
             >
               <Button>CHECKOUT NOW</Button>
-            </StripeCheckout>
+            </StripeCheckout> */}
+
+            {/* <form
+              action="http://localhost:5000/api/checkout/payment"
+              method="POST"
+            > */}
+            <Button onClick={onCheckoutHandler}>CHECKOUT NOW</Button>
+            {/* <Button>CHECKOUT NOW</Button>
+            </form> */}
+
+            {/* {clientSecret && (
+              <Elements options={options} stripe={stripePromise}>
+                <CheckoutForm />
+              </Elements>
+            )} */}
           </Summary>
         </Bottom>
       </Wrapper>

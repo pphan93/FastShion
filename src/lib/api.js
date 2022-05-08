@@ -43,7 +43,7 @@ export async function getProductDetail(id) {
 
 export async function payment(paymentInfo) {
   const subAPIURL = "checkout/payment";
-  console.log(paymentInfo);
+  // console.log(paymentInfo);
   const response = await fetch(API_URL + subAPIURL, {
     method: "POST",
     headers: {
@@ -52,9 +52,15 @@ export async function payment(paymentInfo) {
     },
     body: JSON.stringify(paymentInfo),
   });
+
+  // console.log("------------------");
+  // console.log(response);
   let data = await response.json();
 
+  console.log(data);
+
   if (!response.ok) {
+    console.log("error");
     throw new Error(data.message || "Payment unsucessful, please try again.");
   }
 
