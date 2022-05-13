@@ -122,12 +122,8 @@ To get a local copy up and running follow these simple example steps.
 ### Demo
 
 **See below for a quick demo. You can also try it out using this login.**
-<a href="https://fastshion.pphan.ca/">View Store Demo</a>
 
-```
-Username: johnd@email.com
-Password: asdf1234
-```
+<a href="https://fastshion.pphan.ca/">View Store Demo</a>
 
 <a href="https://fastshion-dash.pphan.ca/">View Admin Dashboard Demo</a>
 
