@@ -11,7 +11,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/pphan93/FastShion">
-    <img src="readme/FastShion.svg" alt="Logo" width="120" height="120" style="color:white;">
+    <img src="readme/FastShion.svg" alt="Logo" width="120" height="120" style="fill:teal;">
   </a>
 
 <h3 align="center">FastShion</h3>
