@@ -156,8 +156,8 @@ const Product = () => {
       addProduct({
         ...loadedProduct,
         quantity,
-        size,
-        color,
+        size: [size],
+        color: [color],
       })
     );
   };

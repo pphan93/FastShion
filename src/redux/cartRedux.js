@@ -9,9 +9,47 @@ const cartSlice = createSlice({
   },
   reducers: {
     addProduct: (state, action) => {
-      state.quantity += 1;
-      state.products.push(action.payload);
-      state.total += action.payload.price * action.payload.quantity;
+      // state.quantity += 1;
+      // state.products.push(action.payload);
+      // state.total += action.payload.price * action.payload.quantity;
+
+      const existingCartItemIndex = state.products.findIndex(
+        (item) => item._id === action.payload._id
+      );
+      let updatedProducts = [...state.products];
+
+      if (existingCartItemIndex !== -1) {
+        updatedProducts[existingCartItemIndex].quantity =
+          updatedProducts[existingCartItemIndex].quantity +
+          action.payload.quantity;
+
+        if (
+          !updatedProducts[existingCartItemIndex].size.includes(
+            action.payload.size[0]
+          )
+        ) {
+          updatedProducts[existingCartItemIndex].size.push(
+            action.payload.size[0]
+          );
+        }
+
+        if (
+          !updatedProducts[existingCartItemIndex].color.includes(
+            action.payload.color[0]
+          )
+        ) {
+          updatedProducts[existingCartItemIndex].color.push(
+            action.payload.color[0]
+          );
+        }
+
+        state.total += action.payload.price * action.payload.quantity;
+      } else {
+        //add item into new array
+        state.products.push(action.payload);
+        state.quantity += 1;
+        state.total += action.payload.price * action.payload.quantity;
+      }
     },
     updateProduct: (state, action) => {
       state.products = state.products.map((item, index) => {
@@ -26,7 +64,11 @@ const cartSlice = createSlice({
       });
       state.total += action.payload.price * action.payload.quantity;
     },
-    removeProduct: (state, action) => {},
+    removeProduct: (state, action) => {
+      state.products = state.products.filter(
+        (item) => item._id !== action.payload._id
+      );
+    },
     clearCart: (state, action) => {
       state.quantity = 0;
       state.products = [];

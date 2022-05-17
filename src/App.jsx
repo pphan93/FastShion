@@ -13,6 +13,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Success from "./pages/Success";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -21,6 +22,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
+        <Route path="*" element={<NotFound />} />
+
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductList />}>
           <Route path=":category" element={<ProductList />} />

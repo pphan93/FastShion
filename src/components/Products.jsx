@@ -15,6 +15,7 @@ const Container = styled.div`
 
 const Products = ({ cat, filters, sort }) => {
   // const [products, setProducts] = useState([]);
+
   const [filteredProducts, setFiltersProduct] = useState([]);
   const {
     sendRequest,
@@ -36,7 +37,22 @@ const Products = ({ cat, filters, sort }) => {
     if (status === "pending") {
       return <div className="centered">Loading...</div>;
     }
-    cat &&
+
+    if (cat === "" || cat === null || cat === undefined) {
+      // setFiltersProduct(loadedProducts);
+
+      if (filters) {
+        setFiltersProduct(
+          loadedProducts.filter((item) =>
+            Object.entries(filters).every(([key, value]) => {
+              return item[key].includes(value);
+            })
+          )
+        );
+      } else {
+        setFiltersProduct(loadedProducts);
+      }
+    } else {
       setFiltersProduct(
         loadedProducts.filter((item) =>
           Object.entries(filters).every(([key, value]) => {
@@ -44,6 +60,7 @@ const Products = ({ cat, filters, sort }) => {
           })
         )
       );
+    }
   }, [status, loadedProducts, cat, filters, error]);
 
   //sort by price
@@ -68,6 +85,9 @@ const Products = ({ cat, filters, sort }) => {
 
   return (
     <Container>
+      {/* {filteredProducts.map((item) => {
+        return <Product key={item._id} item={item} />;
+      })} */}
       {cat
         ? filteredProducts.map((item) => {
             return <Product key={item._id} item={item} />;

@@ -217,10 +217,12 @@ const Cart = () => {
                         <b>ID: </b>
                         {product._id}
                       </ProductID>
-                      <ProductColor color={product.color} />
+                      {product.color.map((color, idx) => {
+                        return <ProductColor key={idx} color={color} />;
+                      })}
                       <ProductSize>
                         <b>Size: </b>
-                        {product.size}
+                        {product.size.join(",")}
                       </ProductSize>
                     </Details>
                   </ProductDetail>
@@ -245,17 +247,17 @@ const Cart = () => {
               <SummaryItemText>Subtotal</SummaryItemText>
               <SummaryItemPrice>${cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <SummaryItem>
+            {/* <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
               <SummaryItemPrice>$10</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Shipping Discount</SummaryItemText>
               <SummaryItemPrice>$-10</SummaryItemPrice>
-            </SummaryItem>
+            </SummaryItem> */}
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>${cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>${cart.total.toFixed(2)}</SummaryItemPrice>
             </SummaryItem>
 
             <Button onClick={onCheckoutHandler}>CHECKOUT NOW</Button>
