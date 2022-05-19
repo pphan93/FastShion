@@ -63,10 +63,8 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://fastshion.pphan.ca/)
 
-
-https://user-images.githubusercontent.com/5741352/169182468-cbb92421-b298-4498-9ce5-0815b74da0cf.mp4
+https://user-images.githubusercontent.com/5741352/169182630-3bf2a835-24f0-41de-946d-b7feeeade539.mp4
 
 
 FastShion is online store that sells fast fashion clothes. Our collections will rotate every seasons, some of the collections might not be available ever again.
