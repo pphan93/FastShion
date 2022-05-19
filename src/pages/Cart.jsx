@@ -6,9 +6,11 @@ import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import { mobile } from "../responsive";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { payment } from "../lib/api";
 import { loadStripe } from "@stripe/stripe-js";
+import { removeProduct, updateQuanity } from "../redux/cartRedux";
 // import { Elements } from "@stripe/react-stripe-js";
 // import CheckoutForm from "../components/CheckoutForm";
 
@@ -88,6 +90,12 @@ const Details = styled.div`
   justify-content: space-around;
 `;
 
+const Filter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const ProductName = styled.span``;
 
 const ProductColor = styled.div`
@@ -95,6 +103,7 @@ const ProductColor = styled.div`
   height: 20px;
   border-radius: 50%;
   background-color: ${(props) => props.color};
+  margin: 0 5px;
 `;
 const ProductID = styled.div``;
 const ProductSize = styled.span``;
@@ -162,6 +171,8 @@ const Button = styled.button`
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
   // const [stripeToken, setStripeToken] = useState(null);
   // const [clientSecret, setClientSecret] = useState("");
 
@@ -184,6 +195,23 @@ const Cart = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const removeProductHandler = (id) => {
+    dispatch(
+      removeProduct({
+        _id: id,
+      })
+    );
+  };
+
+  const quantityHandler = (condition, id) => {
+    dispatch(
+      updateQuanity({
+        condition: condition,
+        _id: id,
+      })
+    );
   };
 
   return (
@@ -217,9 +245,11 @@ const Cart = () => {
                         <b>ID: </b>
                         {product._id}
                       </ProductID>
-                      {product.color.map((color, idx) => {
-                        return <ProductColor key={idx} color={color} />;
-                      })}
+                      <Filter>
+                        {product.color.map((color, idx) => {
+                          return <ProductColor key={idx} color={color} />;
+                        })}
+                      </Filter>
                       <ProductSize>
                         <b>Size: </b>
                         {product.size.join(",")}
@@ -228,13 +258,23 @@ const Cart = () => {
                   </ProductDetail>
                   <PriceDetail>
                     <ProductAmountContainer>
-                      <Add />
+                      <Add
+                        onClick={() => {
+                          quantityHandler("+", product._id);
+                        }}
+                      />
                       <ProductAmount>{product.quantity}</ProductAmount>
-                      <Remove />
+                      <Remove
+                        onClick={() => {
+                          quantityHandler("-", product._id);
+                        }}
+                      />
                     </ProductAmountContainer>
 
                     <ProductPrice>$ {product.price}</ProductPrice>
-                    <DeleteForeverOutlined />
+                    <DeleteForeverOutlined
+                      onClick={() => removeProductHandler(product._id)}
+                    />
                   </PriceDetail>
                 </Product>
               );
@@ -245,7 +285,7 @@ const Cart = () => {
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>${cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>${cart.total.toFixed(2)}</SummaryItemPrice>
             </SummaryItem>
             {/* <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>

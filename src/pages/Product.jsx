@@ -169,8 +169,6 @@ const Product = () => {
     return <div className="centered">Loading...</div>;
   }
 
-  console.log(loadedProduct);
-
   return (
     <Container>
       <NavBar />

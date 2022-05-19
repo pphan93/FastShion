@@ -65,17 +65,63 @@ const cartSlice = createSlice({
       state.total += action.payload.price * action.payload.quantity;
     },
     removeProduct: (state, action) => {
+      const currentItem = state.products.find(
+        (item) => item._id === action.payload._id
+      );
+
+      state.total = state.total - currentItem.quantity * currentItem.price;
       state.products = state.products.filter(
         (item) => item._id !== action.payload._id
       );
+      state.quantity = state.quantity - 1;
     },
     clearCart: (state, action) => {
       state.quantity = 0;
       state.products = [];
       state.total = 0;
     },
+    updateQuanity: (state, action) => {
+      const condition = action.payload.condition;
+      const id = action.payload._id;
+      const existingCartItemIndex = state.products.findIndex(
+        (item) => item._id === id
+      );
+
+      console.log("index: " + existingCartItemIndex);
+
+      if (condition === "+") {
+        state.products[existingCartItemIndex].quantity =
+          state.products[existingCartItemIndex].quantity + 1;
+
+        state.total = state.total + state.products[existingCartItemIndex].price;
+      } else {
+        console.log("----");
+        if (state.products[existingCartItemIndex].quantity <= 1) {
+          console.log("less than");
+          state.total =
+            state.total - state.products[existingCartItemIndex].price;
+
+          state.products = state.products.filter(
+            (item) => item._id !== action.payload._id
+          );
+          state.quantity = state.quantity - 1;
+        } else {
+          state.products[existingCartItemIndex].quantity =
+            state.products[existingCartItemIndex].quantity - 1;
+
+          state.total =
+            state.total - state.products[existingCartItemIndex].price;
+        }
+      }
+    },
   },
 });
 
-export const { addProduct, updateProduct, clearCart } = cartSlice.actions;
+export const {
+  addProduct,
+  updateProduct,
+  clearCart,
+  removeProduct,
+  updateQuanity,
+} = cartSlice.actions;
 export default cartSlice.reducer;
