@@ -243,5 +243,5 @@ Project Link: [https://github.com/pphan93/FastShion/issues](https://github.com/p
 [license-url]: https://github.com/pphan93/FastShion/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/phuoc-phan/
-[product-screenshot]: public/Pursuit_pic.png
+[product-screenshot]: readme/pursuit.mp4
 [product-diagram]: readme/FastShion_Diagram.png

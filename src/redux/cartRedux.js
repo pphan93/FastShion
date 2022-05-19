@@ -9,10 +9,6 @@ const cartSlice = createSlice({
   },
   reducers: {
     addProduct: (state, action) => {
-      // state.quantity += 1;
-      // state.products.push(action.payload);
-      // state.total += action.payload.price * action.payload.quantity;
-
       const existingCartItemIndex = state.products.findIndex(
         (item) => item._id === action.payload._id
       );
@@ -87,17 +83,13 @@ const cartSlice = createSlice({
         (item) => item._id === id
       );
 
-      console.log("index: " + existingCartItemIndex);
-
       if (condition === "+") {
         state.products[existingCartItemIndex].quantity =
           state.products[existingCartItemIndex].quantity + 1;
 
         state.total = state.total + state.products[existingCartItemIndex].price;
       } else {
-        console.log("----");
         if (state.products[existingCartItemIndex].quantity <= 1) {
-          console.log("less than");
           state.total =
             state.total - state.products[existingCartItemIndex].price;
 
