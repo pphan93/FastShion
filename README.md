@@ -63,6 +63,10 @@
 
 ## About The Project
 
+
+https://user-images.githubusercontent.com/5741352/169185262-fa637030-34a1-4387-9285-7d0e56d8a8ec.mp4
+
+
 FastShion is online store that sells fast fashion clothes. Our collections will rotate every seasons, some of the collections might not be available ever again.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
