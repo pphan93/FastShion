@@ -63,9 +63,7 @@
 
 ## About The Project
 
-
 https://user-images.githubusercontent.com/5741352/169185262-fa637030-34a1-4387-9285-7d0e56d8a8ec.mp4
-
 
 FastShion is online store that sells fast fashion clothes. Our collections will rotate every seasons, some of the collections might not be available ever again.
 
@@ -252,6 +250,4 @@ Project Link: [https://github.com/pphan93/FastShion/issues](https://github.com/p
 [license-url]: https://github.com/pphan93/FastShion/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/phuoc-phan/
-
-[product-screenshot]:
 [product-diagram]: readme/FastShion_Diagram.png
