@@ -77,13 +77,19 @@ The project is broken down to 3 components.
 
 #### FastShion UI
 
-This is the github repo for the UI. It is using styled components package for css module.
+This is the github repo for the UI. It is using styled components for CSS.
 
 #### FastShion Admin Dashboard UI
 
 [FastShion Admin Dashboard](https://github.com/pphan93/FastShion-AdminDash)
 
 It is using ReactJS CSS module instead of styled component package.
+
+#### FastShion API
+
+[FastShion API](https://github.com/pphan93/FastShion-API)
+
+Designed RESTful backend utilizing NodeJS and Express to enabled the website UI to easily display, create, update, and remove products.
 
 ### Architecture Diagram
 
