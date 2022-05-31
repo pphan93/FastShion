@@ -189,8 +189,6 @@ const Cart = () => {
       });
 
       const data = await res;
-
-      console.log(data);
       window.location.href = data.url;
     } catch (error) {
       console.log(error);
